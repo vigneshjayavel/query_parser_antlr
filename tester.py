@@ -4,7 +4,7 @@ from SimpleQLListener import SimpleQLListener
 from SimpleQLParser import SimpleQLParser
 
 def main():
-    lexer = SimpleQLLexer(InputStream("select emp_name from employees;"))
+    lexer = SimpleQLLexer(InputStream("select emp_name from employees"))
     stream = CommonTokenStream(lexer)
     parser = SimpleQLParser(stream)
     tree = parser.parse()
