@@ -18,5 +18,11 @@ python tester.py
 - has listener implementation only for table_name.. So expect only the table name.
 
 ### TODO:
-- [ ] got to do listeners for column names, condition clause & group by clause.
-- [ ] strip down everything except for the simple select!
+parse & return the various parameters of a select query viz.
+- [ ] the table name
+- [ ] list of fields
+- [ ] where conditions
+- [ ] join tables
+- [ ] join conditions
+- [ ] group by clause
+- [ ] order by clause
