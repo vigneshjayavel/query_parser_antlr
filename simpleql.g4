@@ -40,7 +40,7 @@ select_core
 expr
  : literal_value
  | BIND_PARAMETER
- | ( ( database_name '.' )? table_name '.' )? column_name
+ | (table_name '.')? column_name
  | unary_operator expr
  | expr '||' expr
  | expr ( '*' | '/' | '%' ) expr
@@ -59,9 +59,12 @@ expr
  ;
 
 ordering_term
- : expr ( K_ASC | K_DESC )?
+ : expr order?
  ;
 
+order
+ : K_ASC | K_DESC
+ ;
 
 result_column
  : '*'
@@ -70,7 +73,7 @@ result_column
  ;
 
 table_or_subquery
- : ( database_name '.' )? table_name ( K_AS? table_alias )?
+ : table_name ( K_AS? table_alias )?
  | '(' ( table_or_subquery ( ',' table_or_subquery )*
        | join_clause )
    ')' ( K_AS? table_alias )?
@@ -157,10 +160,6 @@ keyword
  ;
 
 function_name
- : any_name
- ;
-
-database_name
  : any_name
  ;
 

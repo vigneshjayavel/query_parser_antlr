@@ -19,10 +19,8 @@ python tester.py
 
 ### TODO:
 parse & return the various parameters of a select query viz.
-- [ ] the table name
 - [ ] list of fields
 - [ ] where conditions
 - [ ] join tables
 - [ ] join conditions
 - [ ] group by clause
-- [ ] order by clause

@@ -4,6 +4,13 @@ from antlr4 import *
 # This class defines a complete listener for a parse tree produced by SimpleQLParser.
 class SimpleQLListener(ParseTreeListener):
 
+    def __init__(self):
+        self.table_name = None
+        self.column_names = list()
+        self.condition_clause = list()
+        self.groupby_clause = list()
+        self.orderby_clause = list()
+
     # Enter a parse tree produced by SimpleQLParser#parse.
     def enterParse(self, ctx):
         pass
@@ -55,8 +62,18 @@ class SimpleQLListener(ParseTreeListener):
 
     # Exit a parse tree produced by SimpleQLParser#ordering_term.
     def exitOrdering_term(self, ctx):
+        term = ctx.children[0].getText()
+        if len(ctx.children) == 2:
+            order = ctx.children[1].getText()
+        else:
+            order = 'ASC'
+        self.orderby_clause.append([term, order])
+
+    def enterOrder(self, ctx):
         pass
 
+    def exitOrder(self, ctx):
+        pass
 
     # Enter a parse tree produced by SimpleQLParser#result_column.
     def enterResult_column(self, ctx):
@@ -101,7 +118,6 @@ class SimpleQLListener(ParseTreeListener):
     # Exit a parse tree produced by SimpleQLParser#join_constraint.
     def exitJoin_constraint(self, ctx):
         pass
-
 
     # Enter a parse tree produced by SimpleQLParser#literal_value.
     def enterLiteral_value(self, ctx):
@@ -148,22 +164,13 @@ class SimpleQLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SimpleQLParser#database_name.
-    def enterDatabase_name(self, ctx):
-        pass
-
-    # Exit a parse tree produced by SimpleQLParser#database_name.
-    def exitDatabase_name(self, ctx):
-        pass
-
-
     # Enter a parse tree produced by SimpleQLParser#table_name.
     def enterTable_name(self, ctx):
         pass
 
     # Exit a parse tree produced by SimpleQLParser#table_name.
     def exitTable_name(self, ctx):
-        print("table_name:" + str(ctx.children[0].IDENTIFIER()))
+        self.table_name = ctx.getText()
 
 
     # Enter a parse tree produced by SimpleQLParser#column_name.
@@ -172,7 +179,7 @@ class SimpleQLListener(ParseTreeListener):
 
     # Exit a parse tree produced by SimpleQLParser#column_name.
     def exitColumn_name(self, ctx):
-        pass
+        self.column_names.append(ctx.getText())
 
 
     # Enter a parse tree produced by SimpleQLParser#table_alias.
