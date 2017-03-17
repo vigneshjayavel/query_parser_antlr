@@ -4,11 +4,11 @@ from SimpleQLListener import SimpleQLListener
 from SimpleQLParser import SimpleQLParser
 
 def main():
-    lexer = SimpleQLLexer(InputStream("select emp_name from employees "
-                                      "join issues on employees.id = issues.emp_id "
-                                      "where issues.subject like 'hello' "
-                                      "group by priority "
-                                      "order by issues.id desc, issues.subject"))
+    lexer = SimpleQLLexer(InputStream("select name, age from employees "
+                                      "where employees.bio like 'hello' "
+                                      "group by employees.country, employees.city "
+                                      "order by employees.id desc, employees.joining_date "
+                                      "limit 5, 100"))
     stream = CommonTokenStream(lexer)
     parser = SimpleQLParser(stream)
     tree = parser.parse()

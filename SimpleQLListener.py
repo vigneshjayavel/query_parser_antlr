@@ -1,5 +1,6 @@
 # Generated from SimpleQL.g4 by ANTLR 4.6
 from antlr4 import *
+import pdb
 
 # This class defines a complete listener for a parse tree produced by SimpleQLParser.
 class SimpleQLListener(ParseTreeListener):
@@ -7,9 +8,12 @@ class SimpleQLListener(ParseTreeListener):
     def __init__(self):
         self.table_name = None
         self.column_names = list()
-        self.condition_clause = list()
-        self.groupby_clause = list()
-        self.orderby_clause = list()
+        self.conditions = list()
+        self.groupbys = list()
+        self.orderbys = list()
+        self.limit_value = None
+        self.offset_value = None
+
 
     # Enter a parse tree produced by SimpleQLParser#parse.
     def enterParse(self, ctx):
@@ -38,21 +42,21 @@ class SimpleQLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SimpleQLParser#select_core.
-    def enterSelect_core(self, ctx):
+    # Enter a parse tree produced by SimpleQLParser#boolean_expr.
+    def enterBoolean_expr(self, ctx):
         pass
 
-    # Exit a parse tree produced by SimpleQLParser#select_core.
-    def exitSelect_core(self, ctx):
+    # Exit a parse tree produced by SimpleQLParser#boolean_expr.
+    def exitBoolean_expr(self, ctx):
         pass
 
 
-    # Enter a parse tree produced by SimpleQLParser#expr.
-    def enterExpr(self, ctx):
+    # Enter a parse tree produced by SimpleQLParser#ordering_terms.
+    def enterOrdering_terms(self, ctx):
         pass
 
-    # Exit a parse tree produced by SimpleQLParser#expr.
-    def exitExpr(self, ctx):
+    # Exit a parse tree produced by SimpleQLParser#ordering_terms.
+    def exitOrdering_terms(self, ctx):
         pass
 
 
@@ -67,57 +71,26 @@ class SimpleQLListener(ParseTreeListener):
             order = ctx.children[1].getText()
         else:
             order = 'ASC'
-        self.orderby_clause.append([term, order])
+        self.orderbys.append([term, order])
 
+
+    # Enter a parse tree produced by SimpleQLParser#order.
     def enterOrder(self, ctx):
         pass
 
+    # Exit a parse tree produced by SimpleQLParser#order.
     def exitOrder(self, ctx):
         pass
 
-    # Enter a parse tree produced by SimpleQLParser#result_column.
-    def enterResult_column(self, ctx):
+
+    # Enter a parse tree produced by SimpleQLParser#selected_column.
+    def enterSelected_column(self, ctx):
         pass
 
-    # Exit a parse tree produced by SimpleQLParser#result_column.
-    def exitResult_column(self, ctx):
-        pass
+    # Exit a parse tree produced by SimpleQLParser#selected_column.
+    def exitSelected_column(self, ctx):
+        self.column_names.append(ctx.getText())
 
-
-    # Enter a parse tree produced by SimpleQLParser#table_or_subquery.
-    def enterTable_or_subquery(self, ctx):
-        pass
-
-    # Exit a parse tree produced by SimpleQLParser#table_or_subquery.
-    def exitTable_or_subquery(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by SimpleQLParser#join_clause.
-    def enterJoin_clause(self, ctx):
-        pass
-
-    # Exit a parse tree produced by SimpleQLParser#join_clause.
-    def exitJoin_clause(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by SimpleQLParser#join_operator.
-    def enterJoin_operator(self, ctx):
-        pass
-
-    # Exit a parse tree produced by SimpleQLParser#join_operator.
-    def exitJoin_operator(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by SimpleQLParser#join_constraint.
-    def enterJoin_constraint(self, ctx):
-        pass
-
-    # Exit a parse tree produced by SimpleQLParser#join_constraint.
-    def exitJoin_constraint(self, ctx):
-        pass
 
     # Enter a parse tree produced by SimpleQLParser#literal_value.
     def enterLiteral_value(self, ctx):
@@ -137,13 +110,22 @@ class SimpleQLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SimpleQLParser#column_alias.
-    def enterColumn_alias(self, ctx):
+    # Enter a parse tree produced by SimpleQLParser#limit_value.
+    def enterLimit_value(self, ctx):
         pass
 
-    # Exit a parse tree produced by SimpleQLParser#column_alias.
-    def exitColumn_alias(self, ctx):
+    # Exit a parse tree produced by SimpleQLParser#limit_value.
+    def exitLimit_value(self, ctx):
+        self.limit_value = ctx.getText()
+
+
+    # Enter a parse tree produced by SimpleQLParser#offset_value.
+    def enterOffset_value(self, ctx):
         pass
+
+    # Exit a parse tree produced by SimpleQLParser#offset_value.
+    def exitOffset_value(self, ctx):
+        self.offset_value = ctx.getText()
 
 
     # Enter a parse tree produced by SimpleQLParser#keyword.
@@ -179,16 +161,34 @@ class SimpleQLListener(ParseTreeListener):
 
     # Exit a parse tree produced by SimpleQLParser#column_name.
     def exitColumn_name(self, ctx):
-        self.column_names.append(ctx.getText())
-
-
-    # Enter a parse tree produced by SimpleQLParser#table_alias.
-    def enterTable_alias(self, ctx):
         pass
 
-    # Exit a parse tree produced by SimpleQLParser#table_alias.
-    def exitTable_alias(self, ctx):
+
+    # Enter a parse tree produced by SimpleQLParser#order_by_column.
+    def enterOrder_by_column(self, ctx):
         pass
+
+    # Exit a parse tree produced by SimpleQLParser#order_by_column.
+    def exitOrder_by_column(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by SimpleQLParser#grouping_terms.
+    def enterGrouping_terms(self, ctx):
+        pass
+
+    # Exit a parse tree produced by SimpleQLParser#grouping_terms.
+    def exitGrouping_terms(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by SimpleQLParser#group_by_column.
+    def enterGroup_by_column(self, ctx):
+        pass
+
+    # Exit a parse tree produced by SimpleQLParser#group_by_column.
+    def exitGroup_by_column(self, ctx):
+        self.groupbys.append(ctx.column_name().getText())
 
 
     # Enter a parse tree produced by SimpleQLParser#any_name.
@@ -198,5 +198,3 @@ class SimpleQLListener(ParseTreeListener):
     # Exit a parse tree produced by SimpleQLParser#any_name.
     def exitAny_name(self, ctx):
         pass
-
-
